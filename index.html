@@ -19,7 +19,7 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="scrollTo('hero')">
-    <img id="logo" src="assets/logo_pizzas.png" alt="Pizzas Cacho">
+    <img id="logo" src="/assets/logo_pizzas.png" alt="Pizzas Cacho">
     <span>Pizzas Cacho</span>
   </div>
   <ul class="nav-links">
@@ -36,11 +36,11 @@
 
 
 <!-- HERO -->
-<section class="container"id="hero">
+<section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-pattern"></div>
   <div class="hero-content">
-    <img id="logo" src="assets/logo_pizzas.png" alt="Pizzas Cacho" width="25%">
+    <img id="logo" src="/assets/logo_pizzas.png" alt="Pizzas Cacho" width="25%">
     <h1 class="hero-title">Pizzas<span>Cacho</span></h1>
     <p class="hero-subtitle">La Cumbre · Córdoba · Argentina</p>
     <div class="hero-info">
@@ -56,7 +56,7 @@
 
 <!-- MENU -->
 <section id="menu">
-  <div class="card" class="container">
+  <div class="card" >
     <h2 class="section-title"><span>Nuestro</span> Menú</h2>
     <div class="section-divider"></div>
     <div class="menu-tabs">
@@ -185,7 +185,7 @@
     <div class="menu-tab-content" id="tab-hamburguesas">
       <div class="menu-grid">
         <div class="menu-card">
-             <img src="assets/hamb.jpeg" alt="Hamburguesa" width="60%" style="text-align: center;" sizes="20%">
+             <img src="/assets/hamb.jpeg" alt="Hamburguesa" width="60%" style="text-align: center;" sizes="20%">
           <div class="menu-card-body">
             <div class="menu-card-name">Hamburguesa Simple</div>
             <div class="menu-card-desc">Lechuga, tomate, salsa Big Mac y fritas.</div>
@@ -248,7 +248,7 @@
 </section>
 
 <!-- ABOUT -->
-<section class="container" id="about">
+<section  id="about">
   <div class="card" class="container">
     <h2 class="section-title">Sobre <span>Nosotros</span></h2>
     <div class="section-divider"></div>
@@ -285,7 +285,7 @@
 </section>
 
 <!-- CONTACT -->
-<section class="container" id="contact">
+<section  id="contact">
   <div class="card"class="container">
     <h2 class="section-title">Encontranos <span>Aquí</span></h2>
     <div class="section-divider"></div>
@@ -345,7 +345,7 @@
 
 <!-- LOGIN MODAL -->
 <div class="modal-overlay" id="modal-login">
-  <div class="modal">
+  <div >
     <button class="modal-close" onclick="closeModal('login')">✕</button>
     <h2>Iniciar <span style="color:var(--red);">Sesión</span></h2>
     <p>Ingresá para hacer tu pedido más rápido</p>
@@ -366,7 +366,7 @@
 
 <!-- REGISTER MODAL -->
 <div class="modal-overlay" id="modal-register">
-  <div class="modal">
+  <div >
     <button class="modal-close" onclick="closeModal('register')">✕</button>
     <h2>Crear <span style="color:var(--red);">Cuenta</span></h2>
     <p>Unite a la comunidad de Pizzas Cacho</p>
@@ -675,35 +675,36 @@ function switchTab(name) {
 
 
 
-// ===== NAV SCROLL =====
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  nav.style.boxShadow = window.scrollY > 30 ? '0 4px 30px rgba(0,0,0,0.6)' : 'none';
-});
+const cards = document.querySelectorAll(".card");
 
+// detectar si es celular
+if (window.innerWidth > 768) {
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add("show");
+        }, index * 200);
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  cards.forEach(card => observer.observe(card));
+
+} else {
+  // en celular → mostrar todo de una
+  cards.forEach(card => card.classList.add("show"));
+}
 
 
 // ===== INIT =====
 updateAuthUI();
 </script>
 
-<script>
-const cards = document.querySelectorAll(".card");
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, index) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => {
-        entry.target.classList.add("show");
-      }, index * 200); // efecto escalonado
-    }
-  });
-}, {
-  threshold: 0.2
-});
-
-cards.forEach(card => observer.observe(card));
-</script>
 
 </body>
 </html>
