@@ -104,7 +104,7 @@
           </div>
         </div>
         <div class="menu-card">
-          <div class="menu-card-img">🥚</div>
+          <img src="assets/pizza_huevo.png" alt="Pizza Huevo" width="100%" style="text-align: center;" sizes="20%">
           <div class="menu-card-body">
             <div class="menu-card-name">Huevo</div>
             <div class="menu-card-desc">Salsa de tomate, muzzarella y huevo al plato.</div>
@@ -126,7 +126,7 @@
           </div>
         </div>
         <div class="menu-card">
-          <div class="menu-card-img">🧅</div>
+          <img src="assets/pizza_cebolla.png" alt="Pizza Fugazza" width="100%" style="text-align: center;" sizes="20%">
           <div class="menu-card-body">
             <div class="menu-card-name">Fugazza</div>
             <div class="menu-card-desc">Cebolla, muzzarella y orégano.Con poca salsa.</div>
@@ -170,7 +170,7 @@
           </div>
         </div>
         <div class="menu-card" style="border-color: rgba(244,185,66,0.5); background: linear-gradient(135deg, rgba(244,185,66,0.05), var(--dark2));">
-          <div class="menu-card-img" style="background: linear-gradient(135deg,#7A6010,#222);">🌟</div>
+          <img src="assets/pizza_palmito.png" alt="Pizza Jamón, Palmitos y Golf" width="100%" style="text-align: center;" sizes="20%">
           <div class="menu-card-body">
             <div class="menu-card-name" style="color:var(--gold-light);">Jamón, Palmitos y Golf <small style="color:var(--cream2);font-size:0.7em;">PREMIUM</small></div>
             <div class="menu-card-desc">Muzzarella, jamón, palmitos y salsa golf. La más especial.</div>
@@ -279,7 +279,7 @@
         </div>
       </div>
       <div class="about-visual">
-        <span>🍕</span>
+        <img src="assets/logo_pizzas.png" alt="Sobre Nosotros" width="45%" style="border-radius:12px;">
         <p>Pizzas Cacho</p>
       </div>
     </div>
@@ -327,7 +327,7 @@
         <div class="map-pin">📍</div>
         <h4>Dorrego 90</h4>
         <p>La Cumbre, Córdoba, Argentina</p>
-        <a class="btn-maps" href="https://maps.google.com/?q=La+Cumbre,+Córdoba,+Argentina" target="_blank">Ver en Google Maps</a>
+        <a class="btn-maps" href="https://www.google.com/maps/@-30.9775213,-64.5005352,21z?entry=ttu&g_ep=EgoyMDI2MDMxOC4xIKXMDSoASAFQAw%3D%3D" target="_blank">Ver en Google Maps</a>
       </div>
     </div>
   </div>
@@ -410,6 +410,11 @@
       <span>Total</span>
       <strong id="cartTotal">$0</strong>
     </div>
+
+    <div class="checkout-user">
+  <input type="text" id="nombreCliente" placeholder="Nombre" required>
+  <input type="text" id="apellidoCliente" placeholder="Apellido" required>
+</div>
 <div class="form-group">
   <label>Tipo de pedido</label>
   <select id="orderType" onchange="toggleAddress()">
@@ -561,6 +566,14 @@ function checkout() {
     return;
   }
 
+  const nombre = document.getElementById('nombreCliente').value.trim();
+  const apellido = document.getElementById('apellidoCliente').value.trim();
+
+  if (!nombre || !apellido) {
+  alert("Por favor ingresá tu nombre y apellido");
+  return;
+      }
+
   const type = document.getElementById('orderType').value;
 
   const addressInput = document.querySelector('#addressContainer input');
@@ -598,6 +611,8 @@ function checkout() {
   const mensaje = `🍕 *Pedido - Pizzas Cacho*
 
 ${items}
+
+👤 Cliente: ${nombre} ${apellido}
 
 💰 Total: $${total}
 
