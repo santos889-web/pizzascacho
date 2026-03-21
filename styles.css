@@ -51,36 +51,17 @@
 
 .card {
   opacity: 0;
-  transform: translateY(80px) scale(0.95);
-  transition: all 0.8s ease;
-  background: #111;
-  color: white;
-  margin: 40px 0;
-  padding: 40px;
-  border-radius: 12px;
+  transform: translateY(80px);
 }
 
-/* cuando aparece */
 .card.show {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.reveal:nth-child(1) { transition-delay: 0.1s; }
-.reveal:nth-child(2) { transition-delay: 0.3s; }
-.reveal:nth-child(3) { transition-delay: 0.5s; }
-
-
-.reveal {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: 0.7s ease;
-}
-
-.reveal.active {
   opacity: 1;
   transform: translateY(0);
 }
+
+
+
+
 
   /* ===== NAVIGATION ===== */
   nav {
