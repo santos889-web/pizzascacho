@@ -113,7 +113,7 @@
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
     
      overflow: hidden;
-    padding-top: 10px;
+    padding-top: 50px;
   }
   .hero-bg {
     position: absolute; inset: 0;
