@@ -335,6 +335,7 @@
   <p>© 2025 <span>Pizzas Cacho</span> · Dorrego 90, La Cumbre, Córdoba · Hecho con ❤️ y mucha muzzarella</p>
 </footer>
 
+
 <!-- CART BUTTON -->
 <button class="cart-btn" onclick="openModal('cart')">
   🛒
@@ -391,6 +392,19 @@
   </div>
 </div>
 
+<div class="form-group">
+  <label>Dirección de entrega</label>
+  <input type="text" id="userAddress" placeholder="Ej: Calle 123, Casa 4">
+</div>
+
+<div class="form-group">
+  <label>Método de pago</label>
+  <select id="paymentMethod">
+    <option value="Efectivo">Efectivo</option>
+    <option value="Transferencia">Transferencia</option>
+  </select>
+</div>
+
 <!-- CART MODAL -->
 <div class="modal-overlay" id="modal-cart">
   <div class="modal cart-modal">
@@ -404,6 +418,27 @@
       <span>Total</span>
       <strong id="cartTotal">$0</strong>
     </div>
+<div class="form-group">
+  <label>Tipo de pedido</label>
+  <select id="orderType" onchange="toggleAddress()">
+    <option value="retiro">Retirar en el local</option>
+    <option value="delivery">Delivery (+$2000)</option>
+  </select>
+</div>
+
+<div class="form-group" id="addressContainer" style="display:none;">
+  <label>Dirección de entrega</label>
+  <input type="text" id="userAddress" placeholder="Ej: Calle 123, Casa 4">
+</div>
+
+<div class="form-group">
+  <label>Método de pago</label>
+  <select id="paymentMethod">
+    <option value="Efectivo">Efectivo</option>
+    <option value="Transferencia">Transferencia</option>
+  </select>
+</div>
+
     <button class="btn-submit" onclick="checkout()">Confirmar Pedido 🍕</button>
   </div>
 </div>
@@ -434,6 +469,19 @@ function updateAuthUI() {
     el.innerHTML = `<button class="btn-login" onclick="openModal('login')">Ingresar</button><button class="btn-register" onclick="openModal('register')">Registrarse</button>`;
   }
 }
+
+
+function toggleAddress() {
+  const type = document.getElementById('orderType').value;
+  const addressBox = document.getElementById('addressContainer');
+
+  if (type === 'delivery') {
+    addressBox.style.display = 'block';
+  } else {
+    addressBox.style.display = 'none';
+  }
+}
+
 
 function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
@@ -511,20 +559,64 @@ function renderCartItems() {
 }
 
 function checkout() {
-  if (!cart.length) return;
-  const sess = getSession();
-  const items = cart.map(i => i.name).join(', ');
-  const total = cart.reduce((s,i) => s+i.price, 0);
-  alert(`¡Pedido confirmado! 🍕\n\nCliente: ${sess.name}\nProductos: ${items}\nTotal: $${total.toLocaleString('es-AR')}\n\nTe contactaremos pronto. ¡Gracias!`);
-  cart = [];
-  updateCart();
-  renderCartItems();
-  closeModal('cart');
+  if (!cart.length) {
+    alert("No agregaste productos");
+    return;
+  }
+
+  const type = document.getElementById('orderType').value;
+
+  const addressInput = document.querySelector('#addressContainer input');
+  const address = addressInput ? addressInput.value.trim() : "";
+
+  const method = document.querySelector('#modal-cart #paymentMethod').value;
+
+  let total = cart.reduce((s,i) => s+i.price, 0);
+
+  let tipoTexto = "Retiro en el local";
+  let direccionTexto = "";
+  let pagoTexto = "";
+
+  // 🚚 DELIVERY
+  if (type === 'delivery') {
+    if (!address) {
+      alert("Por favor ingresá tu dirección");
+      return;
+    }
+
+    total += 2000;
+    tipoTexto = "Delivery";
+    direccionTexto = `📍 Dirección: ${address}\n`;
+  }
+
+  // 💳 MÉTODO DE PAGO
+  if (method === "Transferencia") {
+    pagoTexto = `💳 Pago: Transferencia\n🏦 Alias: pizzascacho`;
+  } else {
+    pagoTexto = `💳 Pago: Efectivo`;
+  }
+
+  const items = cart.map(i => `• ${i.name} ($${i.price})`).join("\n");
+
+  const mensaje = `🍕 *Pedido - Pizzas Cacho*
+
+${items}
+
+💰 Total: $${total}
+
+🚚 Tipo: ${tipoTexto}
+${direccionTexto}${pagoTexto}`;
+
+  const url = `https://wa.me/5493548500926?text=${encodeURIComponent(mensaje)}`;
+
+  window.open(url, "_blank");
 }
 
 
 // ===== MODALS =====
 function openModal(name) {
+
+
   console.log("Abrir modal:", name);
 
   const modal = document.getElementById('modal-' + name);
@@ -567,14 +659,19 @@ function switchTab(name) {
   event.target.classList.add('active');
 }
 
+
+
 // ===== NAV SCROLL =====
 window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
   nav.style.boxShadow = window.scrollY > 30 ? '0 4px 30px rgba(0,0,0,0.6)' : 'none';
 });
 
+
+
 // ===== INIT =====
 updateAuthUI();
 </script>
+
 </body>
 </html>
