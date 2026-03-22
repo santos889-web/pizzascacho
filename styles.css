@@ -59,13 +59,91 @@
 }
 
 
+
+/* CONTENEDOR RECUPERAR */
+.recover-box {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* INPUTS */
+.recover-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* PLACEHOLDER */
+.recover-box input::placeholder {
+  color: #aaa;
+}
+
+/* BOTONES */
+.recover-box button {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #c9a646;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* HOVER */
+.recover-box button:hover {
+  transform: scale(1.03);
+  background: #e6c15a;
+}
+
+/* BOTÓN SECUNDARIO (código) */
+.recover-box .btn-code {
+  background: #333;
+  color: white;
+}
+
+.recover-box .btn-code:hover {
+  background: #444;
+}
+
+/* SEPARADOR */
+.recover-divider {
+  text-align: center;
+  margin: 10px 0;
+  color: #888;
+  font-size: 12px;
+}
+
+/* MENSAJE */
+.recover-msg {
+  font-size: 13px;
+  color: #22c55e;
+  text-align: center;
+  display: none;
+}
+
+/* ERROR */
+.recover-error {
+  font-size: 13px;
+  color: #ef4444;
+  text-align: center;
+  display: none;
+}
+
 .instagram-box a:hover {
   opacity: 0.8;
 }
 
 
 .checkout-user {
-  display: flex;
+  display: column;
   gap: 10px;
   margin-bottom: 15px;
 }
