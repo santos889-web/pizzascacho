@@ -351,27 +351,41 @@
   <span class="cart-count" id="cartCount">0</span>
 </button>
 
-<!-- LOGIN MODAL -->
+<!-- LOGIN -->
 <div class="modal-overlay" id="modal-login">
-  <div >
+  <div class="modal">
+
     <button class="modal-close" onclick="closeModal('login')">✕</button>
+
     <h2>Iniciar <span style="color:var(--red);">Sesión</span></h2>
     <p>Ingresá para hacer tu pedido más rápido</p>
+
     <div class="alert-msg alert-success" id="login-success">✅ ¡Bienvenido de vuelta!</div>
-    <div class="alert-msg alert-error" id="login-error">❌ Datos incorrectos. Verificá tus credenciales.</div>
+    <div class="alert-msg alert-error" id="login-error">❌ Datos incorrectos</div>
+
     <div class="form-group">
       <label>Email</label>
       <input type="email" id="loginEmail" placeholder="tu@email.com">
     </div>
+
     <div class="form-group">
       <label>Contraseña</label>
       <input type="password" id="loginPass" placeholder="••••••••">
     </div>
+
     <button class="btn-submit" onclick="doLogin()">Ingresar</button>
-    <div class="modal-switch">¿No tenés cuenta? <a onclick="switchModal('login','register')">Registrate aquí</a></div>
+
+    <div class="modal-switch">
+      <a onclick="switchModal('login','recover')">¿Olvidaste tu contraseña?</a>
+    </div>
+
+    <div class="modal-switch">
+      ¿No tenés cuenta? 
+      <a onclick="switchModal('login','register')">Registrate</a>
+    </div>
+
   </div>
 </div>
-
 <!-- REGISTER MODAL -->
 <div class="modal-overlay" id="modal-register">
   <div >
@@ -418,7 +432,9 @@
     </div>
 
     <div class="checkout-user">
-  <input type="text" id="nombreCliente" placeholder="Nombre" required>
+  <input type="text" id="nombreCliente" placeholder="Nombre" required> 
+  <br>
+  <br>
   <input type="text" id="apellidoCliente" placeholder="Apellido" required>
 </div>
 <div class="form-group">
@@ -513,7 +529,7 @@ function doRegister() {
   if (!name || !email || !pass || pass.length < 6) { showAlert('reg-error', true); return; }
   const users = getUsers();
   if (users.find(u => u.email === email)) { showAlert('reg-error', true); return; }
-  users.push({ name, email, pass, phone });
+  users.push({ name, email, pass, phone, code: null });
   saveUsers(users);
   showAlert('reg-success', true);
   setTimeout(() => { closeModal('register'); openModal('login'); }, 1400);
@@ -721,6 +737,57 @@ if (window.innerWidth > 768) {
   // en celular → mostrar todo de una
   cards.forEach(card => card.classList.add("show"));
 }
+
+ 
+
+function recover() {
+  const email = document.getElementById("recoverEmail").value;
+  let users = getUsers();
+
+  const user = users.find(u => u.email === email);
+
+  if (!user) {
+    alert("Ese mail no existe");
+    return;
+  }
+
+  const code = Math.floor(100000 + Math.random() * 900000);
+
+  user.code = code;
+  saveUsers(users);
+
+  alert("Tu código es: " + code);
+}
+
+
+function resetPassword() {
+  const email = document.getElementById("recoverEmail").value;
+  const code = document.getElementById("codeInput").value;
+  const newPass = document.getElementById("newPass").value;
+  const confirmPass = document.getElementById("confirmPass").value;
+
+  let users = getUsers();
+
+  const user = users.find(u => u.email === email);
+
+  if (!user || user.code != code) {
+    alert("Código incorrecto");
+    return;
+  }
+
+  if (newPass !== confirmPass) {
+    alert("Las contraseñas no coinciden");
+    return;
+  }
+
+  user.pass = newPass;
+  user.code = null;
+
+  saveUsers(users);
+
+  alert("Contraseña actualizada");
+}
+
 
 
 // ===== INIT =====
