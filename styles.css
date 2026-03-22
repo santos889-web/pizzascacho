@@ -45,8 +45,37 @@
 }
 
 
+.instagram-box a {
+  display: inline-flex;
+  align-items: center; /* alinea verticalmente */
+  gap: 8px;
+
+  text-decoration: none; /* ❌ saca la línea azul */
+  color: #c9a646; /* opcional: color dorado como tu web */
+}
+
+.instagram-box img {
+  display: block;
+}
 
 
+.instagram-box a:hover {
+  opacity: 0.8;
+}
+
+
+.checkout-user {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.checkout-user input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
 
 
 .card {
