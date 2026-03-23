@@ -3,14 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="La6cFs8iMCmd0DlqsQeEj3LtnueuHuHmbUWZm_efYF0" />
 <link rel="stylesheet" href="styles.css">
 <title>Pizzas Cacho - La Cumbre, Córdoba</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 </head>
-
-  
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
@@ -43,14 +40,24 @@ window.firebaseFns = {
   onAuthStateChanged,
   signOut
 };
+
+
+window.firebaseFns = {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
+};
+
+window.auth = auth;
+
 </script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9206651652201041"
      crossorigin="anonymous"></script>
 
 <div id="pedido-ok">✅ Pedido enviado</div>
-
-  
 <body>
 
 <!-- PROMO BANNER -->
@@ -98,7 +105,7 @@ window.firebaseFns = {
 
 <!-- MENU -->
 <section id="menu">
-  <div class="card" >
+  <div>
     <h2 class="section-title"><span>Nuestro</span> Menú</h2>
     <div class="section-divider"></div>
     <div class="menu-tabs">
@@ -291,7 +298,7 @@ window.firebaseFns = {
 
 <!-- ABOUT -->
 <section  id="about">
-  <div class="card" class="container">
+  <div class="container">
     <h2 class="section-title">Sobre <span>Nosotros</span></h2>
     <div class="section-divider"></div>
     <div class="about-grid">
@@ -328,7 +335,7 @@ window.firebaseFns = {
 
 <!-- CONTACT -->
 <section  id="contact">
-  <div class="card"class="container">
+  <div class="container">
     <h2 class="section-title">Encontranos <span>Aquí</span></h2>
     <div class="section-divider"></div>
     <div class="contact-grid">
@@ -530,7 +537,30 @@ document.getElementById('logo').addEventListener('click', () => {
   document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
 
+  firebaseFns.onAuthStateChanged(auth, (user) => {
+    const el = document.getElementById('navAuth');
+    if (!el) return;
+
+    if (user) {
+      const nombre = user.displayName || user.email.split("@")[0];
+
+      el.innerHTML = `
+        <div class="user-bar">
+          👋 Hola, ${nombre}
+          <button class="btn-logout" onclick="logout()">Salir</button>
+        </div>
+      `;
+    } else {
+      el.innerHTML = `
+        <button class="btn-login" onclick="openModal('login')">Ingresar</button>
+        <button class="btn-register" onclick="openModal('register')">Registrarse</button>
+      `;
+    }
+  });
+
+});
 
 
 // ===== USERS (localStorage) =====
@@ -540,16 +570,6 @@ function getSession() { return JSON.parse(localStorage.getItem('cacho_session') 
 function saveSession(u) { localStorage.setItem('cacho_session', JSON.stringify(u)); }
 function clearSession() { localStorage.removeItem('cacho_session'); }
 
-// ===== AUTH UI =====
-function updateAuthUI() {
-  const sess = getSession();
-  const el = document.getElementById('navAuth');
-  if (sess) {
-    el.innerHTML = `<div class="user-bar"><span class="user-name">👤 ${sess.name}</span><button class="btn-logout" onclick="doLogout()">Salir</button></div>`;
-  } else {
-    el.innerHTML = `<button class="btn-login" onclick="openModal('login')">Ingresar</button><button class="btn-register" onclick="openModal('register')">Registrarse</button>`;
-  }
-}
 
 
 function toggleAddress() {
@@ -562,6 +582,12 @@ function toggleAddress() {
     addressBox.style.display = 'none';
   }
 }
+
+
+function logout() {
+  firebaseFns.signOut(auth);
+}
+
 
 
 async function doLogin() {
@@ -580,34 +606,40 @@ async function doLogin() {
 async function doRegister() {
   const email = document.getElementById('regEmail').value;
   const pass = document.getElementById('regPass').value;
+  const name = document.getElementById('regName').value;
 
   try {
-    await firebaseFns.createUserWithEmailAndPassword(auth, email, pass);
+    const userCredential = await firebaseFns.createUserWithEmailAndPassword(auth, email, pass);
+
+    // 🔥 GUARDAR NOMBRE
+    await import("https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js")
+      .then(({ updateProfile }) => {
+        return updateProfile(userCredential.user, {
+          displayName: name
+        });
+      });
+
     alert("✅ Usuario creado");
     closeModal('register');
+
   } catch (e) {
     alert("❌ Error: " + e.message);
   }
 }
-
-function logout() {
-  firebaseFns.signOut(auth);
-}
-
 // ===== CART =====
 
 
 function addToCart(name, price) {
-  const sess = getSession();
-  if (!sess) { openModal('login'); return; }
+  if (!auth.currentUser) {
+    openModal('login');
+    return;
+  }
+
   cart.push({ name, price });
   updateCart();
   renderCartItems();
-  // brief animation on button
-  const count = document.getElementById('cartCount');
-  count.style.transform = 'scale(1.5)';
-  setTimeout(() => count.style.transform = 'scale(1)', 300);
 }
+
 
 function removeFromCart(i) {
   cart.splice(i, 1);
@@ -809,23 +841,7 @@ async function recover() {
 }
 
 
-firebaseFns.onAuthStateChanged(auth, (user) => {
-  const el = document.getElementById('navAuth');
-
-  if (user) {
-    el.innerHTML = `
-      <div class="user-bar">
-        👤 ${user.email}
-        <button onclick="logout()">Salir</button>
-      </div>
-    `;
-  } else {
-    el.innerHTML = `
-      <button onclick="openModal('login')">Ingresar</button>
-    `;
-  }
-});
-
+window.logout = logout;
 
 
 // ===== INIT =====
