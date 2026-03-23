@@ -41,7 +41,7 @@ window.firebaseFns = {
   signOut
 };
 </script>
-     
+
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9206651652201041"
      crossorigin="anonymous"></script>
 
@@ -387,6 +387,7 @@ window.firebaseFns = {
 </button>
 
 <!-- LOGIN -->
+ 
 <div class="modal-overlay" id="modal-login">
   <div class="modal">
 
@@ -423,34 +424,50 @@ window.firebaseFns = {
 </div>
 <!-- REGISTER MODAL -->
 <div class="modal-overlay" id="modal-register">
-  <div >
+  <div class="modal">
+
     <button class="modal-close" onclick="closeModal('register')">✕</button>
+
     <h2>Crear <span style="color:var(--red);">Cuenta</span></h2>
     <p>Unite a la comunidad de Pizzas Cacho</p>
-    <div class="alert-msg alert-success" id="reg-success">✅ ¡Cuenta creada! Ya podés iniciar sesión.</div>
-    <div class="alert-msg alert-error" id="reg-error">❌ Completá todos los campos correctamente.</div>
+
+    <div class="alert-msg alert-success" id="reg-success">
+      ✅ ¡Cuenta creada! Ya podés iniciar sesión.
+    </div>
+
+    <div class="alert-msg alert-error" id="reg-error">
+      ❌ Completá todos los campos correctamente.
+    </div>
+
     <div class="form-group">
       <label>Nombre</label>
       <input type="text" id="regName" placeholder="Tu nombre">
     </div>
+
     <div class="form-group">
       <label>Email</label>
       <input type="email" id="regEmail" placeholder="tu@email.com">
     </div>
+
     <div class="form-group">
       <label>Contraseña</label>
       <input type="password" id="regPass" placeholder="Mínimo 6 caracteres">
     </div>
+
     <div class="form-group">
       <label>Teléfono (opcional)</label>
       <input type="tel" id="regPhone" placeholder="+54 9 XXXX XXXX">
     </div>
+
     <button class="btn-submit" onclick="doRegister()">Registrarse</button>
-    <div class="modal-switch">¿Ya tenés cuenta? <a onclick="switchModal('register','login')">Iniciá sesión</a></div>
+
+    <div class="modal-switch">
+      ¿Ya tenés cuenta? 
+      <a onclick="switchModal('register','login')">Iniciá sesión</a>
+    </div>
+
   </div>
 </div>
-
-
 
 <!-- CART MODAL -->
 <div class="modal-overlay" id="modal-cart">
@@ -542,35 +559,35 @@ function toggleAddress() {
 }
 
 
-function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value;
   const pass = document.getElementById('loginPass').value;
-  const users = getUsers();
-  const user = users.find(u => u.email === email && u.pass === pass);
-  hideAlerts('login');
-  if (!email || !pass) { showAlert('login-error', true); return; }
-  if (!user) { showAlert('login-error', true); return; }
-  saveSession(user);
-  showAlert('login-success', true);
-  setTimeout(() => { closeModal('login'); updateAuthUI(); }, 1200);
+
+  try {
+    await firebaseFns.signInWithEmailAndPassword(auth, email, pass);
+    alert("✅ Sesión iniciada");
+    closeModal('login');
+  } catch (e) {
+    alert("❌ Error: " + e.message);
+  }
 }
 
-function doRegister() {
-  const name = document.getElementById('regName').value.trim();
-  const email = document.getElementById('regEmail').value.trim();
+async function doRegister() {
+  const email = document.getElementById('regEmail').value;
   const pass = document.getElementById('regPass').value;
-  const phone = document.getElementById('regPhone').value.trim();
-  hideAlerts('reg');
-  if (!name || !email || !pass || pass.length < 6) { showAlert('reg-error', true); return; }
-  const users = getUsers();
-  if (users.find(u => u.email === email)) { showAlert('reg-error', true); return; }
-  users.push({ name, email, pass, phone, code: null });
-  saveUsers(users);
-  showAlert('reg-success', true);
-  setTimeout(() => { closeModal('register'); openModal('login'); }, 1400);
+
+  try {
+    await firebaseFns.createUserWithEmailAndPassword(auth, email, pass);
+    alert("✅ Usuario creado");
+    closeModal('register');
+  } catch (e) {
+    alert("❌ Error: " + e.message);
+  }
 }
 
-function doLogout() { clearSession(); updateAuthUI(); }
+function logout() {
+  firebaseFns.signOut(auth);
+}
 
 // ===== CART =====
 
@@ -775,53 +792,34 @@ if (window.innerWidth > 768) {
 
  
 
-function recover() {
-  const email = document.getElementById("recoverEmail").value;
-  let users = getUsers();
+async function recover() {
+  const email = document.getElementById('recoverEmail').value;
 
-  const user = users.find(u => u.email === email);
-
-  if (!user) {
-    alert("Ese mail no existe");
-    return;
+  try {
+    await firebaseFns.sendPasswordResetEmail(auth, email);
+    alert("📧 Te enviamos un mail para cambiar la contraseña");
+  } catch (e) {
+    alert("❌ Error: " + e.message);
   }
-
-  const code = Math.floor(100000 + Math.random() * 900000);
-
-  user.code = code;
-  saveUsers(users);
-
-  alert("Tu código es: " + code);
 }
 
 
-function resetPassword() {
-  const email = document.getElementById("recoverEmail").value;
-  const code = document.getElementById("codeInput").value;
-  const newPass = document.getElementById("newPass").value;
-  const confirmPass = document.getElementById("confirmPass").value;
+firebaseFns.onAuthStateChanged(auth, (user) => {
+  const el = document.getElementById('navAuth');
 
-  let users = getUsers();
-
-  const user = users.find(u => u.email === email);
-
-  if (!user || user.code != code) {
-    alert("Código incorrecto");
-    return;
+  if (user) {
+    el.innerHTML = `
+      <div class="user-bar">
+        👤 ${user.email}
+        <button onclick="logout()">Salir</button>
+      </div>
+    `;
+  } else {
+    el.innerHTML = `
+      <button onclick="openModal('login')">Ingresar</button>
+    `;
   }
-
-  if (newPass !== confirmPass) {
-    alert("Las contraseñas no coinciden");
-    return;
-  }
-
-  user.pass = newPass;
-  user.code = null;
-
-  saveUsers(users);
-
-  alert("Contraseña actualizada");
-}
+});
 
 
 
