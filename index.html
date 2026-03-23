@@ -413,12 +413,12 @@ window.auth = auth;
 
     <div class="form-group">
       <label>Email</label>
-      <input type="email" id="loginEmail" placeholder="tu@email.com">
+      <input type="email" id="loginEmail" placeholder="tu@email.com"  autocomplete="username">
     </div>
 
     <div class="form-group">
       <label>Contraseña</label>
-      <input type="password" id="loginPass" placeholder="••••••••">
+      <input type="password" id="loginPass" placeholder="Mínimo 6 caracteres"  autocomplete="new-password">
     </div>
 
     <button class="btn-submit" onclick="doLogin()">Ingresar</button>
@@ -434,6 +434,34 @@ window.auth = auth;
 
   </div>
 </div>
+
+
+
+<!-- RECOVER MODAL -->
+<div class="modal-overlay" id="modal-recover">
+  <div class="modal">
+
+    <button class="modal-close" onclick="closeModal('recover')">✕</button>
+
+    <h2>Recuperar <span style="color:var(--red);">Contraseña</span></h2>
+    <p>Ingresá tu email y te mandamos un link</p>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="recoverEmail" placeholder="tu@email.com">
+    </div>
+
+    <button class="btn-submit" onclick="recover()">Enviar correo</button>
+
+    <div class="modal-switch">
+      <a onclick="switchModal('recover','login')">Volver al login</a>
+    </div>
+
+  </div>
+</div>
+
+
+
 <!-- REGISTER MODAL -->
 <div class="modal-overlay" id="modal-register">
   <div class="modal">
@@ -594,12 +622,25 @@ async function doLogin() {
   const email = document.getElementById('loginEmail').value;
   const pass = document.getElementById('loginPass').value;
 
+  const error = document.getElementById('login-error');
+  const success = document.getElementById('login-success');
+
+  error.style.display = "none";
+  success.style.display = "none";
+
   try {
     await firebaseFns.signInWithEmailAndPassword(auth, email, pass);
-    alert("✅ Sesión iniciada");
-    closeModal('login');
+
+    success.style.display = "block";
+
+    setTimeout(() => {
+      closeModal('login');
+      success.style.display = "none";
+    }, 1500);
+
   } catch (e) {
-    alert("❌ Error: " + e.message);
+    error.textContent = "❌ Email o contraseña incorrectos";
+    error.style.display = "block";
   }
 }
 
@@ -608,24 +649,47 @@ async function doRegister() {
   const pass = document.getElementById('regPass').value;
   const name = document.getElementById('regName').value;
 
+  const error = document.getElementById('reg-error');
+  const success = document.getElementById('reg-success');
+
+  error.style.display = "none";
+  success.style.display = "none";
+
   try {
     const userCredential = await firebaseFns.createUserWithEmailAndPassword(auth, email, pass);
 
-    // 🔥 GUARDAR NOMBRE
-    await import("https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js")
-      .then(({ updateProfile }) => {
-        return updateProfile(userCredential.user, {
-          displayName: name
-        });
-      });
+    // 🔥 guardar nombre
+    const { updateProfile } = await import("https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js");
+    await updateProfile(userCredential.user, {
+      displayName: name
+    });
 
-    alert("✅ Usuario creado");
-    closeModal('register');
+    success.textContent = "✅ Cuenta creada e iniciaste sesión";
+    success.style.display = "block";
+
+    setTimeout(() => {
+      closeModal('register');
+    }, 1500);
+
+    // ❗ NO LLAMES doLogin → ya está logeado automáticamente
 
   } catch (e) {
-    alert("❌ Error: " + e.message);
+
+    if (e.code === "auth/email-already-in-use") {
+      error.textContent = "❌ Este email ya está en uso";
+    } 
+    else if (e.code === "auth/weak-password") {
+      error.textContent = "❌ Mínimo 6 caracteres";
+    } 
+    else {
+      error.textContent = "❌ Error al registrarse";
+    }
+
+    error.style.display = "block";
   }
 }
+
+
 // ===== CART =====
 
 
@@ -832,20 +896,29 @@ if (window.innerWidth > 768) {
 async function recover() {
   const email = document.getElementById('recoverEmail').value;
 
+  if (!email) {
+    alert("⚠️ Ingresá tu email");
+    return;
+  }
+
   try {
     await firebaseFns.sendPasswordResetEmail(auth, email);
-    alert("📧 Te enviamos un mail para cambiar la contraseña");
+
+    alert("📧 Te enviamos un mail para recuperar tu contraseña");
+
+    // opcional: cerrar modal
+    closeModal('recover');
+
   } catch (e) {
     alert("❌ Error: " + e.message);
   }
 }
 
-
+window.recover = recover;
 window.logout = logout;
 
 
-// ===== INIT =====
-updateAuthUI();
+
 </script>
 
 
