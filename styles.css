@@ -185,8 +185,119 @@
 }
 
 
+/* CONTENEDOR GENERAL */
+.reviews-section {
+  padding: 30px 15px;
+  background: #0e0e0e;
+  color: white;
+}
 
 
+#reviews-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+#reviews-content.active {
+  max-height: 1000px;
+}
+
+
+/* TÍTULO */
+.reviews-section h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* FORMULARIO */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.review-form input,
+.review-form textarea,
+.review-form select {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #1c1c1c;
+  color: white;
+  font-size: 14px;
+}
+
+/* BOTÓN */
+.review-form button {
+  background: #f5a623;
+  color: black;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.review-form button:hover {
+  transform: scale(1.03);
+}
+
+/* LISTA DE RESEÑAS */
+#lista-reseñas {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 👈 ESTO ES LA CLAVE */
+  gap: 15px;
+}
+/* CARD */
+.review {
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  animation: fadeIn 0.3s ease;
+}
+
+/* TEXTO */
+.review p {
+  margin: 5px 0;
+}
+
+.review span {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* ANIMACIÓN */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* 📱 MOBILE */
+@media (max-width: 600px) {
+  .reviews-section {
+    padding: 20px 10px;
+  }
+
+  .review-form input,
+  .review-form textarea,
+  .review-form select {
+    font-size: 16px;
+  }
+
+  .review {
+    padding: 12px;
+  }
+}
 
   /* ===== NAVIGATION ===== */
   nav {
