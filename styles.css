@@ -185,6 +185,73 @@
 }
 
 
+
+/* REVIEW CARD */
+.review {
+  background: var(--dark2);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  position: relative;
+  text-align: left;
+}
+
+/* ESTRELLAS */
+.review p:first-child {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+}
+
+/* MENSAJE */
+.review p:nth-child(2) {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+}
+
+/* AUTOR */
+.review span {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* BOTÓN ELIMINAR (AHORA BIEN POSICIONADO) */
+.btn-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  background: rgba(255, 0, 0, 0.08);
+  border: none;
+  color: #ff4d4d;
+
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+/* HOVER */
+.btn-delete:hover {
+  background: #ff4d4d;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* CLICK */
+.btn-delete:active {
+  transform: scale(0.9);
+}
+
+
+
 /* CONTENEDOR GENERAL */
 .reviews-section {
   padding: 30px 15px;
