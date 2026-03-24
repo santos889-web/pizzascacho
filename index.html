@@ -22,7 +22,6 @@
 
 
 
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -41,6 +40,16 @@
 
 
 <script type="module">
+
+  import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs 
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+import { onSnapshot } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { deleteDoc, doc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
 import { getAuth, 
   createUserWithEmailAndPassword, 
@@ -62,6 +71,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 window.auth = auth;
 window.firebaseFns = {
@@ -81,8 +91,91 @@ window.firebaseFns = {
   signOut
 };
 
+
+// 🔥 ENVIAR RESEÑA
+window.enviarReseña = async function() {
+  const nombre = document.getElementById("nombre").value;
+  const mensaje = document.getElementById("mensaje").value;
+  const rating = document.getElementById("rating").value;
+
+  if (!nombre || !mensaje) {
+    mostrarAlerta("⚠️ Completá todo");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "reseñas"), {
+      nombre,
+      mensaje,
+      rating: Number(rating),
+      fecha: new Date()
+    });
+
+    mostrarAlerta("✅ Reseña enviada!");
+    location.reload();
+
+  } catch (error) {
+    console.error(error);
+    mostrarAlerta("❌ Error al enviar");
+  }
+};
+
+
+// 🔥 CARGAR RESEÑAS
+function cargarReseñas() {
+  const contenedor = document.getElementById("lista-reseñas");
+  if (!contenedor) return;
+
+  onSnapshot(collection(db, "reseñas"), (snapshot) => {
+    contenedor.innerHTML = "";
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+
+      const fecha = data.fecha?.seconds
+        ? new Date(data.fecha.seconds * 1000).toLocaleDateString()
+        : "Hoy";
+
+      contenedor.innerHTML += `
+        <div class="review">
+          <p>${"⭐".repeat(data.rating)}</p>
+          <p>"${data.mensaje}"</p>
+          <span>${data.nombre} - ${fecha}</span>
+        </div>
+      `;
+    });
+  });
+}
+
+window.eliminarReseña = async function(id) {
+  await deleteDoc(doc(db, "reseñas", id));
+  mostrarAlerta("🗑️ Reseña eliminada");
+  cargarReseñas();
+};
+
+contenedor.innerHTML += `
+  <div class="review">
+    <p>${"⭐".repeat(data.rating)}</p>
+    <p>"${data.mensaje}"</p>
+    <span>${data.nombre} - ${fecha}</span>
+
+    <button onclick="eliminarReseña('${id}')">❌ Eliminar</button>
+  </div>
+`;
+
 window.auth = auth;
 
+</script>
+
+
+<script>
+function toggleReviews() {
+  const content = document.getElementById("reviews-content");
+  const arrow = document.getElementById("arrow");
+
+  content.classList.toggle("active");
+  arrow.classList.toggle("rotate");
+}
 </script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9206651652201041"
@@ -411,6 +504,39 @@ window.auth = auth;
   </div>
 </section>
 
+
+<section class="reviews-section">
+
+  <div class="reviews-header" onclick="toggleReviews()">
+    <h2>⭐ Opiniones</h2>
+    <span id="arrow">▼</span>
+  </div>
+
+  <div id="reviews-content">
+
+    <div class="review-form">
+      <input id="nombre" placeholder="Tu nombre">
+
+      <select id="rating">
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+      </select>
+
+      <textarea id="mensaje" placeholder="Tu reseña"></textarea>
+
+      <button onclick="enviarReseña()">Enviar</button>
+    </div>
+
+    <div id="lista-reseñas"></div>
+
+  </div>
+
+</section>
+
+
 <!-- FOOTER -->
 <footer>
   <p>© 2026 <span>Pizzas Cacho</span> · Dorrego 90, La Cumbre, Córdoba · Diseño: Santos Cepeda</p>
@@ -588,6 +714,9 @@ window.auth = auth;
 <div id="pedido-ok" style="display:none; position:fixed; top:20px; right:20px; background:#22c55e; color:white; padding:15px; border-radius:10px; z-index:999;">
   ✅ Pedido enviado
 </div>
+
+
+
 
 <script>
   let cart = [];
@@ -895,6 +1024,9 @@ function switchTab(name) {
   document.getElementById('tab-' + name).classList.add('active');
   event.target.classList.add('active');
 }
+
+
+
 
 
 
