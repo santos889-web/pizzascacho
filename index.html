@@ -108,7 +108,7 @@ window.enviarReseña = async function() {
     return;
   }
 
-  await addDoc(collection(db, "reseñas"), {
+  await addDoc(collection(db, "resenas"), {
     nombre,
     mensaje,
     rating: Number(rating),
@@ -141,15 +141,7 @@ function cargarReseñas() {
       // 🔥 solo si es del mismo usuario
       const puedeEliminar = auth.currentUser && auth.currentUser.uid === data.userId;
 
-      contenedor.innerHTML += `
-        <div class="review">
-          <p>${"⭐".repeat(data.rating)}</p>
-          <p>"${data.mensaje}"</p>
-          <span>${data.nombre} - ${fecha}</span>
-
-          ${puedeEliminar ? `<button onclick="eliminarReseña('${id}')">❌ Eliminar</button>` : ""}
-        </div>
-      `;
+      
     });
   });
 }
