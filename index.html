@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <!-- PROMO BANNER -->
 <div class="promo-banner">
-  🍕 Hacemos delivery en La Cumbre · <span>Delivery $2.000</span> · Abrimos desde las <span>20:30hs</span> 🍕
+  🍕 Hacemos delivery en La Cumbre · <span>Delivery $3.000</span> · Abrimos desde las <span>20:30hs</span> 🍕
 </div>
 
 <!-- NAV -->
@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Salsa de tomate y muzzarella fundida.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$9.000</div>
-              <button class="btn-add" onclick="addToCart('Muzzarella', 9000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Muzzarella', 9000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -265,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Salsa de tomate, muzzarella, tomate en rodajas y ajo.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$12.000</div>
-              <button class="btn-add" onclick="addToCart('Napolitana', 12000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Napolitana', 12000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Salsa de tomate, muzzarella y morrón.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$12.000</div>
-              <button class="btn-add" onclick="addToCart('Morrón', 12000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Morrón', 12000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Salsa de tomate, muzzarella y huevo al plato.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$12.000</div>
-              <button class="btn-add" onclick="addToCart('Huevo', 12000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Huevo', 12000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -298,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Salsa de tomate, muzzarella y jamón cocido.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$12.000</div>
-              <button class="btn-add" onclick="addToCart('Jamón', 12000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Jamón', 12000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Cebolla, muzzarella y orégano.Con poca salsa.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$12.000</div>
-              <button class="btn-add" onclick="addToCart('Fugazza', 12000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Fugazza', 12000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Muzzarella, jamón y morrón asado. Combinación perfecta.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$13.000</div>
-              <button class="btn-add" onclick="addToCart('Jamón y Morrón', 13000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Jamón y Morrón', 13000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Muzzarella, jamón cocido y huevo.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$13.000</div>
-              <button class="btn-add" onclick="addToCart('Jamón y Huevo', 13000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Jamón y Huevo', 13000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -342,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Muzzarella, jamón y tomate fresco en rodajas.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$13.000</div>
-              <button class="btn-add" onclick="addToCart('Jamón y Tomate', 13000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Jamón y Tomate', 13000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="menu-card-desc">Muzzarella, jamón, palmitos y salsa golf. La más especial.</div>
             <div class="menu-card-footer">
               <div class="menu-card-price">$15.000</div>
-              <button class="btn-add" onclick="addToCart('Jamón, Palmitos y Golf', 15000)">+ Agregar</button>
+              <button class="btn-add" onclick="abrirOpcionesPizza('Jamón, Palmitos y Golf', 15000)">+ Agregar</button>
             </div>
           </div>
         </div>
@@ -696,7 +696,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <label>Tipo de pedido</label>
   <select id="orderType" onchange="toggleAddress()">
     <option value="retiro">Retirar en el local</option>
-    <option value="delivery">Delivery (+$2000)</option>
+    <option value="delivery">Delivery (+$3000)</option>
   </select>
 </div>
 
@@ -935,7 +935,7 @@ function checkout() {
       return;
     }
 
-    total += 2000;
+    total += 3000;
     tipoTexto = "Delivery";
     direccionTexto = `📍 Dirección: ${address}\n`;
   }
@@ -1090,9 +1090,172 @@ function mostrarAlerta(msg) {
   alert(msg);
 }
 
+
+
+function calcularMitad(precio) {
+  if (precio === 9000) return 5000;
+  if (precio === 12000) return 6000;
+  if (precio === 13000) return 7000;
+  if (precio === 15000) return 8000;
+  return precio / 2;
+}
+
+function abrirOpcionesPizza(nombre, precio) {
+  const opcion = prompt(
+`¿Cómo querés la pizza?
+
+1 - Completa ($${precio})
+2 - Media ($${calcularMitad(precio)})
+3 - Media y Media (elige la otra mitad)`
+  );
+
+  if (opcion === "1") {
+    addToCart(nombre, precio);
+  }
+
+  else if (opcion === "2") {
+    addToCart("1/2 " + nombre, calcularMitad(precio));
+  }
+
+  else if (opcion === "3") {
+    elegirMitadYMitad(nombre, precio);
+  }
+}
+
+
+
+function elegirMitadYMitad(nombre1, precio1) {
+
+  const nombre2 = prompt("Elegí la otra mitad (nombre exacto de la pizza)");
+
+  if (!nombre2) return;
+
+  // buscamos precio de la otra pizza
+  const precios = {
+    "Muzzarella": 9000,
+    "Napolitana": 12000,
+    "Morrón": 12000,
+    "Huevo": 12000,
+    "Jamón": 12000,
+    "Fugazza": 12000,
+    "Jamón y Morrón": 13000,
+    "Jamón y Huevo": 13000,
+    "Jamón y Tomate": 13000,
+    "Jamón, Palmitos y Golf": 15000
+  };
+
+  const precio2 = precios[nombre2];
+
+  if (!precio2) {
+    alert("Pizza no válida");
+    return;
+  }
+
+  const mitad1 = calcularMitad(precio1);
+  const mitad2 = calcularMitad(precio2);
+
+  const precioFinal = mitad1 + mitad2;
+
+  addToCart(`1/2 ${nombre1} + 1/2 ${nombre2}`, precioFinal);
+}
+
+let pizzaActual = null;
+
+const pizzas = {
+  "Muzzarella": 9000,
+  "Napolitana": 12000,
+  "Morrón": 12000,
+  "Huevo": 12000,
+  "Jamón": 12000,
+  "Fugazza": 12000,
+  "Jamón y Morrón": 13000,
+  "Jamón y Huevo": 13000,
+  "Jamón y Tomate": 13000,
+  "Jamón, Palmitos y Golf": 15000
+};
+
+function calcularMitad(precio) {
+  if (precio === 9000) return 5000;
+  if (precio === 12000) return 6000;
+  if (precio === 13000) return 7000;
+  if (precio === 15000) return 8000;
+}
+
+function abrirOpcionesPizza(nombre, precio) {
+  pizzaActual = { nombre, precio };
+
+  document.getElementById("pizza-title").innerText = nombre;
+  document.getElementById("pizza-modal").style.display = "flex";
+
+  cargarOpcionesMitad();
+}
+
+function cerrarModal() {
+  document.getElementById("pizza-modal").style.display = "none";
+  document.getElementById("mitad-selector").classList.add("hidden");
+}
+
+
+function elegirCompleta() {
+  addToCart(pizzaActual.nombre, pizzaActual.precio);
+  cerrarModal();
+}
+
+function elegirMitad() {
+  addToCart("1/2 " + pizzaActual.nombre, calcularMitad(pizzaActual.precio));
+  cerrarModal();
+}
+
+function mostrarMitadYMitad() {
+  document.getElementById("mitad-selector").classList.remove("hidden");
+}
+
+function cargarOpcionesMitad() {
+  const select = document.getElementById("segunda-mitad");
+  select.innerHTML = "";
+
+  for (let nombre in pizzas) {
+    const option = document.createElement("option");
+    option.value = nombre;
+    option.textContent = nombre;
+    select.appendChild(option);
+  }
+}
+
+function confirmarMitadYMitad() {
+  const nombre2 = document.getElementById("segunda-mitad").value;
+
+  const precio1 = pizzaActual.precio;
+  const precio2 = pizzas[nombre2];
+
+  const total = calcularMitad(precio1) + calcularMitad(precio2);
+
+  addToCart(`1/2 ${pizzaActual.nombre} + 1/2 ${nombre2}`, total);
+
+  cerrarModal();
+}
+
 </script>
 
+<div id="pizza-modal" class="pizza-modal">
+  <div class="pizza-modal-content">
+    <h2 id="pizza-title">Elegir pizza</h2>
 
+    <div class="pizza-options">
+      <button onclick="elegirCompleta()">🍕 Completa</button>
+      <button onclick="elegirMitad()">🍕 Media</button>
+      
+    </div>
+
+    <div id="mitad-selector" class="hidden">
+      <p>Elegí la segunda mitad:</p>
+      <select id="segunda-mitad"></select>
+      <button onclick="confirmarMitadYMitad()">Agregar</button>
+    </div>
+
+    <button class="cerrar" onclick="cerrarModal()">✖</button>
+  </div>
+</div>
 
 </body>
 </html>
