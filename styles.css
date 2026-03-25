@@ -60,6 +60,148 @@
 
 
 
+
+
+
+
+.pizza-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
+}
+
+.pizza-modal-content {
+  background: linear-gradient(145deg, #1f1f1f, #141414);
+  padding: 30px 25px;
+  border-radius: 20px;
+  width: 320px;
+  text-align: center;
+  color: white;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  animation: scaleIn 0.2s ease;
+}
+
+/* TÍTULO */
+.pizza-modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* BOTONES */
+.pizza-options button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff9800, #ff7b00);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pizza-options button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(255,152,0,0.4);
+}
+
+.pizza-options button:active {
+  transform: scale(0.97);
+}
+
+/* SELECTOR MITAD */
+#mitad-selector {
+  margin-top: 15px;
+  animation: fadeIn 0.2s ease;
+}
+
+#mitad-selector p {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* SELECT */
+#segunda-mitad {
+  width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #2a2a2a;
+  color: white;
+  outline: none;
+}
+
+/* BOTON AGREGAR */
+#mitad-selector button {
+  padding: 10px 12px;
+  margin-left: 5px;
+  border-radius: 10px;
+  border: none;
+  background: #4caf50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#mitad-selector button:hover {
+  background: #43a047;
+}
+
+/* BOTON CERRAR */
+.cerrar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #ff3b30;
+  border: none;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cerrar:hover {
+  background: #ff1f0f;
+  transform: rotate(90deg);
+}
+
+/* ANIMACIONES */
+@keyframes scaleIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+
+
+
+
 /* CONTENEDOR RECUPERAR */
 .recover-box {
   margin-top: 15px;
