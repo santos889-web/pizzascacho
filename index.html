@@ -441,7 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <p>Desde las clásicas hasta las especiales, cada producto sale de nuestras manos con el cariño y la pasión de quienes amamos lo que hacemos. Hacemos delivery para que disfrutes sin moverte de casa.</p>
         <div class="about-stats">
           <div class="stat-box">
-            <div class="stat-num">10+</div>
+            <div class="stat-num">9+</div>
             <div class="stat-label">Variedades de Pizza</div>
           </div>
           <div class="stat-box">
@@ -1227,6 +1227,12 @@ function cargarOpcionesMitad() {
 
 function confirmarMitadYMitad() {
   const nombre2 = document.getElementById("segunda-mitad").value;
+
+  // 🚫 evitar misma pizza
+  if (nombre2 === pizzaActual.nombre) {
+    alert("⚠️ No podés elegir la misma pizza en ambas mitades");
+    return;
+  }
 
   const precio1 = pizzaActual.precio;
   const precio2 = pizzas[nombre2];
