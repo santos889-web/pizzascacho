@@ -142,6 +142,22 @@
   outline: none;
 }
 
+
+#arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  margin-left: 10px;
+}
+
+.rotate {
+  transform: rotate(90deg); /* derecha → abajo */
+}
+
+.hidden {
+  display: none;
+}
+
+
 /* BOTON AGREGAR */
 #mitad-selector button {
   padding: 10px 12px;
