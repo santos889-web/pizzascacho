@@ -244,6 +244,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <button class="tab-btn" onclick="switchTab('sandwiches')">🥪 Sándwich</button>
     </div>
 
+    
+
     <!-- PIZZAS -->
     <div class="menu-tab-content active" id="tab-pizzas">
       <div class="menu-grid">
@@ -696,7 +698,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <label>Tipo de pedido</label>
   <select id="orderType" onchange="toggleAddress()">
     <option value="retiro">Retirar en el local</option>
-    <option value="delivery">Delivery (+$3000)</option>
+    <option value="delivery">Delivery (+$2000)</option>
   </select>
 </div>
 
@@ -935,7 +937,7 @@ function checkout() {
       return;
     }
 
-    total += 3000;
+    total += 2000;
     tipoTexto = "Delivery";
     direccionTexto = `📍 Dirección: ${address}\n`;
   }
@@ -973,7 +975,7 @@ ok.style.display = "block";
 
 setTimeout(() => {
   ok.style.display = "none";
-}, 3000);
+}, 2000);
 
 // ✅ vaciar carrito
 cart = [];
