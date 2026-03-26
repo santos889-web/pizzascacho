@@ -748,7 +748,7 @@
 
   /* ===== CART ===== */
   .cart-btn {
-    position: fixed; bottom: 2.5rem; left:3rem; z-index: 999;
+    position: fixed; bottom: 1.7rem; left: 2rem; z-index: 999;
     background: var(--red); color: var(--white); border: none;
     width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; cursor: pointer;
     box-shadow: 0 4px 20px rgba(192,40,28,0.5); transition: all 0.3s;
