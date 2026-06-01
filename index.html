@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo" onclick="scrollTo('hero')">
+  <div class="nav-logo" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
     <img id="logo" src="assets/logo_pizzas.png" alt="Pizzas Cacho">
     <span>Pizzas Cacho</span>
   </div>
@@ -211,7 +211,21 @@ document.addEventListener("DOMContentLoaded", () => {
     <button class="btn-login" onclick="openModal('login')">Ingresar</button>
     <button class="btn-register" onclick="openModal('register')">Registrarse</button>
   </div>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#menu" onclick="closeMobileMenu()">🍕 Menú</a>
+  <a href="#about" onclick="closeMobileMenu()">📍 Nosotros</a>
+  <a href="#contact" onclick="closeMobileMenu()">📞 Contacto</a>
+  <div class="mobile-menu-auth" id="mobileMenuAuth">
+    <button class="btn-login" onclick="closeMobileMenu(); openModal('login')">Ingresar</button>
+    <button class="btn-register" onclick="closeMobileMenu(); openModal('register')">Registrarse</button>
+  </div>
+</div>
 
 
 
@@ -420,11 +434,11 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 
     <!-- Delivery info -->
-    <div style="margin-top:3rem; text-align:center; background:var(--black); border:2px solid rgba(192,40,28,0.3); border-radius:12px; padding:2rem;">
-      <div style="font-size:2.5rem; margin-bottom:0.5rem;">🛵</div>
-      <h3 style="font-family:'Bebas Neue',cursive; font-size:1.8rem; color:var(--white); letter-spacing:3px; margin-bottom:0.5rem;">Delivery $2.000</h3>
-      <p style="color:var(--cream2); margin-bottom:0.5rem;">Alias: <strong style="color:var(--gold);">pizzascacho</strong></p>
-      <p style="color:var(--cream2); font-size:0.9rem;">Transferencias antes o al momento de la entrega</p>
+    <div style="margin-top:3rem; text-align:center; background:var(--black); border:2px solid rgba(192,40,28,0.35); border-radius:14px; padding:2rem 2.5rem; max-width:500px; margin-left:auto; margin-right:auto;">
+      <div style="font-size:2.8rem; margin-bottom:0.8rem;">🛵</div>
+      <h3 style="font-family:'Bebas Neue',cursive; font-size:2rem; color:var(--white); letter-spacing:3px; margin-bottom:0.8rem;">Delivery $2.000</h3>
+      <p style="color:var(--cream2); margin-bottom:0.4rem; font-size:0.95rem;">Alias: <strong style="color:var(--gold); font-size:1.05rem;">pizzascacho</strong></p>
+      <p style="color:var(--cream2); font-size:0.85rem; opacity:0.7; margin-top:0.6rem;">Transferencia bancaria · Antes o al momento de la entrega</p>
     </div>
   </div>
 </section>
@@ -548,13 +562,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 <span>Pizzas Cacho</span> · Dorrego 90, La Cumbre, Córdoba · Diseño: Santos Cepeda</p>
   <div class="instagram-box">
-  <a href="https://instagram.com/pizzascacho" target="_blank">
-    <img src="assets/logo_instagram.png"  width="25px"   alt="Instagram">
-    <span>Seguinos en Instagram</span>
-  </a>
-</div>
+    <a href="https://instagram.com/pizzascacho" target="_blank">
+      <img src="assets/logo_instagram.png" width="22px" alt="Instagram">
+      <span>@pizzascacho</span>
+    </a>
+  </div>
+  <p>© 2026 <span>Pizzas Cacho</span> · Dorrego 90, La Cumbre, Córdoba</p>
+  <p style="font-size:0.75rem; opacity:0.4; letter-spacing:1px;">Diseño: Santos Cepeda</p>
 </footer>
 
 
@@ -730,6 +745,28 @@ document.addEventListener("DOMContentLoaded", () => {
 <script>
   let cart = [];
 // ===== LOGO =====
+// ===== MOBILE MENU =====
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('navHamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('navHamburger').classList.remove('open');
+}
+// Close mobile menu on outside click
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('navHamburger');
+  if (menu && menu.classList.contains('open')) {
+    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+      closeMobileMenu();
+    }
+  }
+});
+
 document.getElementById('logo').addEventListener('click', () => {
   document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
 });
@@ -742,18 +779,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (user) {
       const nombre = user.displayName || user.email.split("@")[0];
-
-      el.innerHTML = `
+      const authHTML = `
         <div class="user-bar">
           👋 Hola, ${nombre}
           <button class="btn-logout" onclick="logout()">Salir</button>
         </div>
       `;
+      el.innerHTML = authHTML;
+      const mobileAuth = document.getElementById('mobileMenuAuth');
+      if (mobileAuth) mobileAuth.innerHTML = authHTML;
     } else {
-      el.innerHTML = `
+      const loginHTML = `
         <button class="btn-login" onclick="openModal('login')">Ingresar</button>
         <button class="btn-register" onclick="openModal('register')">Registrarse</button>
       `;
+      el.innerHTML = loginHTML;
+      const mobileAuth = document.getElementById('mobileMenuAuth');
+      if (mobileAuth) mobileAuth.innerHTML = loginHTML;
     }
   });
 
@@ -881,7 +923,11 @@ function removeFromCart(i) {
 }
 
 function updateCart() {
-  document.getElementById('cartCount').textContent = cart.length;
+  const el = document.getElementById('cartCount');
+  el.textContent = cart.length;
+  el.classList.remove('bump');
+  void el.offsetWidth; // reflow
+  if (cart.length > 0) el.classList.add('bump');
 }
 
 function renderCartItems() {
@@ -1043,7 +1089,6 @@ const cards = document.querySelectorAll(".card");
 
 // detectar si es celular
 if (window.innerWidth > 768) {
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
@@ -1052,16 +1097,24 @@ if (window.innerWidth > 768) {
         }, index * 200);
       }
     });
-  }, {
-    threshold: 0.2
-  });
-
+  }, { threshold: 0.2 });
   cards.forEach(card => observer.observe(card));
-
 } else {
-  // en celular → mostrar todo de una
   cards.forEach(card => card.classList.add("show"));
 }
+
+// Animate menu cards on scroll
+const menuCardObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add("visible");
+      }, i * 80);
+      menuCardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll(".menu-card").forEach(card => menuCardObserver.observe(card));
 
  
 
@@ -1190,6 +1243,12 @@ function abrirOpcionesPizza(nombre, precio) {
   document.getElementById("pizza-title").innerText = nombre;
   document.getElementById("pizza-modal").style.display = "flex";
 
+  // Update price labels
+  const pc = document.getElementById("price-completa");
+  const pm = document.getElementById("price-mitad");
+  if (pc) pc.textContent = "$" + precio.toLocaleString('es-AR');
+  if (pm) pm.textContent = "$" + calcularMitad(precio).toLocaleString('es-AR');
+
   cargarOpcionesMitad();
 }
 
@@ -1250,10 +1309,20 @@ function confirmarMitadYMitad() {
   <div class="pizza-modal-content">
     <h2 id="pizza-title">Elegir pizza</h2>
 
+    <div class="pizza-modal-subtitle">¿Cómo la querés?</div>
     <div class="pizza-options">
-      <button onclick="elegirCompleta()">🍕 Completa</button>
-      <button onclick="elegirMitad()">🍕 Media</button>
-      
+      <button class="pizza-opt-completa" onclick="elegirCompleta()">
+        <span class="btn-label">🍕 Completa</span>
+        <span class="btn-price" id="price-completa"></span>
+      </button>
+      <button class="pizza-opt-mitad" onclick="elegirMitad()">
+        <span class="btn-label">🍕 Media pizza</span>
+        <span class="btn-price" id="price-mitad"></span>
+      </button>
+      <button class="pizza-opt-mitadymitad" onclick="mostrarMitadYMitad()">
+        <span class="btn-label">🍕 Mitad y Mitad</span>
+        <span class="btn-price">combinar</span>
+      </button>
     </div>
 
     <div id="mitad-selector" class="hidden">
