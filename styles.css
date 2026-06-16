@@ -452,6 +452,10 @@ html
   gap: 12px;
 }
 
+#logo2{
+  margin-left: 20%;
+}
+
 /* REVIEW CARD */
 .resena {
   background: var(--dark2);
@@ -626,6 +630,8 @@ html
     padding-top: 50px;
   }
   .hero-bg {
+    padding-top: 12%;
+    margin-left: 35%;
     position: absolute; inset: 0;
     background: radial-gradient(ellipse at 50% 60%, rgba(192,40,28,0.18) 0%, transparent 70%),
                 radial-gradient(ellipse at 80% 20%, rgba(244,185,66,0.08) 0%, transparent 50%);
