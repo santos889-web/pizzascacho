@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="JCdlywI28gV22mq_8jabPCYoov0FMy8bY6lbUzQUeOg" />
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="worldcup.css">
 <link rel="icon" href="assets/favicon.png">
 <title> Pizzas Cacho </title>
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon_io/android-chrome-512x512.png">
@@ -205,14 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
   <ul class="nav-links">
     <li><a href="#menu">Menú</a></li>
-    <li><a href="#promo-mundial">⚽ Mundial</a></li>
-    <li><a href="#wc-sedes">🌎 Sedes</a></li>
-    <li><a href="planilla.html">Planilla Mundial</a></li>
     <li><a href="#about">Nosotros</a></li>
     <li><a href="#contact">Contacto</a></li>
   </ul>
   <div class="nav-auth" id="navAuth">
-    <div class="worldcup-badge"><span class="worldcup-ball">⚽</span> Edición Mundial 2026</div>
     <button class="btn-login" onclick="openModal('login')">Ingresar</button>
     <button class="btn-register" onclick="openModal('register')">Registrarse</button>
   </div>
@@ -220,13 +215,10 @@ document.addEventListener("DOMContentLoaded", () => {
     <span></span><span></span><span></span>
   </button>
 </nav>
-<!-- WORLDCUP HEADER LINE -->
-<div class="worldcup-header-line"></div>
+
+<!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#menu" onclick="closeMobileMenu()">🍕 Menú</a>
-  <a href="#promo-mundial" onclick="closeMobileMenu()">⚽ Mundial</a>
-  <a href="#wc-sedes" onclick="closeMobileMenu()">🌎 Sedes</a>
-  <a href="planilla.html" onclick="closeMobileMenu()">Planilla Mundial</a>
   <a href="#about" onclick="closeMobileMenu()">📍 Nosotros</a>
   <a href="#contact" onclick="closeMobileMenu()">📞 Contacto</a>
   <div class="mobile-menu-auth" id="mobileMenuAuth">
@@ -239,12 +231,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <!-- HERO -->
 <section id="hero">
-  
-  
-  
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
   <div class="hero-content">
-    <img src="assets/Copa.webp" alt="Pizza Cacho" class="hero-bg" width="11%">
-    <img id="logo2" src="assets/logo_pizzas.png" alt="Pizzas Cacho" width="25%">
+    <img id="logo" src="assets/logo_pizzas.png" alt="Pizzas Cacho" width="25%">
     <h1 class="hero-title">Pizzas<span>Cacho</span></h1>
     <p class="hero-subtitle">La Cumbre · Córdoba · Argentina</p>
     <div class="hero-info">
@@ -257,58 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
 </section>
 
 
-
-
-
-<!-- PROMO MUNDIAL 2026 -->
-<section id="promo-mundial">
-  <div class="promo-mundial-header">
-    <p class="promo-mundial-eyebrow">⚽ Campaña Oficial</p>
-    <h2 class="promo-mundial-title">Pizza + <span>Mundial</span></h2>
-    <div class="promo-mundial-divider"></div>
-  </div>
-
-  <div class="promo-mundial-grid">
-    <div class="promo-card">
-      <span class="promo-card-badge">🔥 HOT</span>
-      <span class="promo-card-icon">🍕⚽</span>
-      <h3>Combo Partido</h3>
-      <p>2 pizzas + delivery gratis en los partidos de Argentina. ¡Acompañá a la Selección desde tu casa!</p>
-      <button class="btn-worldcup" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir Ahora</button>
-    </div>
-    <div class="promo-card">
-      <span class="promo-card-badge">⚡ PROMO</span>
-      <span class="promo-card-icon">🏆🎉</span>
-      <h3>Especial Campeón</h3>
-      <p>Si Argentina gana un partido, el siguiente pedido tiene descuento. ¡Festejamos juntos!</p>
-      <button class="btn-worldcup" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contactar</button>
-    </div>
-    <div class="promo-card">
-      <span class="promo-card-badge">📱 APP</span>
-      <span class="promo-card-icon">🛵💨</span>
-      <h3>Delivery Express</h3>
-      <p>Llegamos antes del próximo gol. Pedí por WhatsApp y seguí viendo el partido sin perderte nada.</p>
-      <button class="btn-worldcup" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Pedir por WhatsApp</button>
-    </div>
-    <div class="promo-card">
-      <span class="promo-card-badge">🌟 NUEVO</span>
-      <span class="promo-card-icon">🍕🥇</span>
-      <h3>Pizza del Campeón</h3>
-      <p>Nuestra Jamón, Palmitos y Golf lleva los colores del Mundial. La más premium para el partido más importante.</p>
-      <button class="btn-worldcup" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver Menú Premium</button>
-    </div>
-  </div>
-
-  <!-- CONTADOR REGRESIVO -->
-  <div id="worldcup-countdown">
-    <div class="wc-countdown-label">Cargando contador...</div>
-  </div>
-</section>
-
-<!-- WORLD CUP TICKER -->
-<div id="wc-ticker">
-  <div class="wc-ticker-track" id="wc-ticker-track"></div>
-</div>
 
 <!-- MENU -->
 <section id="menu">
@@ -503,15 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <p style="color:var(--cream2); font-size:0.85rem; opacity:0.7; margin-top:0.6rem;">Transferencia bancaria · Antes o al momento de la entrega</p>
     </div>
   </div>
-</section>
-
-
-<!-- SEDES MUNDIAL 2026 -->
-<section id="wc-sedes">
-  <p class="wc-section-eyebrow">🌎 Sede oficial</p>
-  <h2 class="wc-section-title">Las <span>14 Ciudades</span> del Mundial</h2>
-  <div class="wc-divider"></div>
-  <div class="wc-sedes-grid" id="wc-sedes-grid"></div>
 </section>
 
 <!-- ABOUT -->
@@ -1405,6 +1334,6 @@ function confirmarMitadYMitad() {
     <button class="cerrar" onclick="cerrarModal()">✖</button>
   </div>
 </div>
-<script src="worldcup.js"></script>
+
 </body>
 </html>
